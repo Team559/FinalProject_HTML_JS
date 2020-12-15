@@ -109,7 +109,7 @@
 
       <div class="all-actions-holder">
         <button class="btn btn-info mb-10" id="getAll">GET All</button>
-
+        <button class="btn btn-info mb-10" id="soapCall">GET All WSDL</button>
         <!-- Staff by Type-->
         <form class="form-inline" id="getStaffByTypeForm">
           <div class="form-group">
@@ -172,11 +172,9 @@
 
     <section class="result-display" id="result-display"></section>
 
-    <!-- FOOTER -->
-    <!-- <section>
-      <iframe src="footer.html"></iframe>
-    </section> -->
-    <!--  -->
+    <div style="margin: 20px" id="soap-result" class="soap-result">
+    </div>
+
 
     <!-- SCRIPTS -->
     <script src="js/jquery.js"></script>
@@ -231,6 +229,38 @@
 
         emptyContainer();
         getData(`${URL}/staff/dept/${val}`);
+      });
+
+      $("#soapCall").click(function (event) {
+
+        var soapRequest = `<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <ConvertToF xmlns="http://tempuri.org/">
+    </ConvertToF>
+  </soap:Body>
+</soap:Envelope>`
+
+
+        $.ajax({
+          type: "POST",
+          url: `http://34.125.217.25:4881/Service.asmx`,
+          contentType: "application/XML",
+          contentType: "text/xml",
+          dataType: "xml",
+          data: soapRequest,
+          success: function (data) {
+            console.log(data);
+            console.log(data.documentElement.innerHTML)
+            $("#soap-result").text(data.documentElement.innerHTML);
+          },
+          error: function (error) {
+            console.log("FAIL", error);
+            fillContainer(error.responseText || error.statusText);
+          },
+        });
+
+
       });
 
       function getData(url) {
