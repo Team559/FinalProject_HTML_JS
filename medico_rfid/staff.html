@@ -169,11 +169,11 @@
         </form>
       </div>
     </section>
-
-    <section class="result-display" id="result-display"></section>
-
+    
     <div style="margin: 20px" id="soap-result" class="soap-result">
     </div>
+    <section class="result-display" id="result-display"></section>
+
 
 
     <!-- SCRIPTS -->
@@ -194,7 +194,7 @@
         $("#byName").val("");
         $('input[name="type"]').prop("checked", false);
         $("#byDept").val("");
-
+        $("#soap-result").text("")
         emptyContainer();
         getData(`${URL}/staff/`);
       });
@@ -206,6 +206,7 @@
         $("#byDept").val("");
         $("#byName").val("");
         emptyContainer();
+        $("#soap-result").text("")
         getData(`${URL}/staff/type/${val}`);
       });
 
@@ -217,6 +218,7 @@
         $("#byDept").val("");
         console.log(val)
         emptyContainer();
+        $("#soap-result").text("")
         getData(`${URL}/staff/name/${val}`);
       });
 
@@ -228,6 +230,7 @@
         $("#byName").val("");
 
         emptyContainer();
+        $("#soap-result").text("")
         getData(`${URL}/staff/dept/${val}`);
       });
 
@@ -251,6 +254,7 @@
           data: soapRequest,
           success: function (data) {
             console.log(data);
+            emptyContainer();
             console.log(data.documentElement.innerHTML)
             $("#soap-result").text(data.documentElement.innerHTML);
           },
@@ -268,7 +272,7 @@
           var tbl_body = "";
           var odd_even = false;
           var header =
-            "<tr class='success'><th>RFID</th><th>Name</th><th>Type</th><th>Specialization</th><th>Qualification</th></tr>";
+            "<tr class='success'><th>RFID</th><th>Name</th><th>Department</th><th>Type</th><th>Specialization</th><th>Qualification</th></tr>";
           tbl_body += header;
           var list = data.staff_info;
           $.each(list, function () {
@@ -277,6 +281,7 @@
 
             tbl_row += "<td>" + this.st_rfid + "</td>";
             tbl_row += "<td>" + this.st_name + "</td>";
+            tbl_row += "<td>" + this.st_dept + "</td>";
             tbl_row += "<td>" + this.st_type + "</td>";
             tbl_row += "<td>" + this.st_specialization + "</td>";
             tbl_row += "<td>" + this.st_qualification + "</td>";

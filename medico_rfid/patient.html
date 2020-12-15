@@ -174,7 +174,7 @@
       $("#getAll").click(function (event) {
         event.preventDefault();
         emptyContainer();
-
+        $("#deletePatient").val("");
         $.ajax({
           type: "GET",
           url: `${URL}/patients/`,
