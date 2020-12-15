@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MEDICINES</title>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="Tooplate" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/animate.css" />
+    <link rel="stylesheet" href="css/owl.carousel.css" />
+    <link rel="stylesheet" href="css/owl.theme.default.min.css" />
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="css/tooplate-style.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+  </head>
+  <body
+    id="top"
+    data-spy="scroll"
+    data-target=".navbar-collapse"
+    data-offset="50"
+  >
+    <!-- PRE LOADER -->
+    <section class="preloader">
+      <div class="spinner">
+        <span class="spinner-rotate"></span>
+      </div>
+    </section>
+
+    <!-- HEADER -->
+    <header>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-sm-5">
+            <p>Welcome to a Medico RFID</p>
+          </div>
+
+          <div class="col-md-8 col-sm-7 text-align-right">
+            <span class="phone-icon"
+              ><i class="fa fa-phone"></i> 010-000-0000</span
+            >
+            <span class="date-icon"
+              ><i class="fa fa-calendar-plus-o"></i> 6:00 AM - 10:00 PM
+              (Mon-Fri)</span
+            >
+            <span class="email-icon"
+              ><i class="fa fa-envelope-o"></i>
+              <a href="#">info@company.com</a></span
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MENU -->
+    <section class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button
+            class="navbar-toggle"
+            data-toggle="collapse"
+            data-target=".navbar-collapse"
+          >
+            <span class="icon icon-bar"></span>
+            <span class="icon icon-bar"></span>
+            <span class="icon icon-bar"></span>
+          </button>
+
+          <!-- lOGO TEXT HERE -->
+          <a href="index.html" class="navbar-brand" style="color: red"
+            ><i class="fa fa-h-square"></i>Medico RFID</a
+          >
+        </div>
+
+        <!-- MENU LINKS -->
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="./surgeries.html" class="smoothScroll">Surgeries</a>
+            </li>
+            <li>
+              <a href="./assest-monitoring.html" class="smoothScroll"
+                >Assets Monitoring</a
+              >
+            </li>
+            <li><a href="./patient.html" class="smoothScroll">Patient</a></li>
+            <li><a href="./staff.html" class="smoothScroll">Staff</a></li>
+            <li>
+              <a href="./medicine.html" class="smoothScroll active">Medicine</a>
+            </li>
+
+            <li class="appointment-btn"><a href="/index.html">Logout</a></li>
+          </ul>
+        </div>
+        <!-- MENU LINKS ENDS-->
+      </div>
+    </section>
+
+    <!-- MAIN BODY -->
+    <section class="section-action-container">
+      <h1></h1>
+
+      <div class="all-actions-holder">
+        <button class="btn btn-info mb-10" id="getAll">GET All</button>
+
+        <!-- Medicine by Patient-->
+        <form class="form-inline" id="medicineByPatient">
+          <div class="form-group">
+            <label for="byPatient">Medicine by Patient</label>
+            <input
+              type="text"
+              class="form-control"
+              id="byPatient"
+              placeholder="Medicines by Patient"
+            />
+          </div>
+          <button type="submit" class="btn btn-info">Go</button>
+        </form>
+
+        <!--Delete Medicine-->
+        <form class="form-inline" id="deleteMedicineForm">
+          <div class="form-group">
+            <label for="deleteMedicine">Delete Medicine</label>
+            <input
+              type="text"
+              class="form-control"
+              id="deleteMedicine"
+              placeholder="Delete Medicine"
+            />
+          </div>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+
+        <!--Update Medicine-->
+        <form class="form-inline" id="updateMedicineForm">
+          <div class="form-group">
+            <label for="updateMedicine">Update Medicine</label>
+            <input
+              type="text"
+              class="form-control"
+              id="updateMedicine"
+              placeholder="Update Medicine"
+            />
+          </div>
+          <button type="submit" class="btn btn-warning">Update</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="result-display" id="result-display"></section>
+
+    <!-- FOOTER -->
+    <!-- <section>
+      <iframe src="footer.html"></iframe>
+    </section> -->
+    <!--  -->
+
+    <!-- SCRIPTS -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.sticky.js"></script>
+    <script src="js/jquery.stellar.min.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script src="js/smoothscroll.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/common.js"></script>
+
+    <script>
+      $("#getAll").click(function (event) {
+        event.preventDefault();
+        emptyContainer();
+        $.get("https://jsonplaceholder.typicode.com/users", function (data) {
+          var tbl_body = "";
+          var odd_even = false;
+          var header =
+            "<tr class='success'><th>name</th><th>email</th><th>username</th><th>website</th></tr>";
+          tbl_body += header;
+          $.each(data, function () {
+            var tbl_row = "";
+            console.log(this);
+
+            tbl_row += "<td>" + this.name + "</td>";
+            tbl_row += "<td>" + this.email + "</td>";
+            tbl_row += "<td>" + this.username + "</td>";
+            tbl_row += "<td>" + this.website + "</td>";
+
+            tbl_body +=
+              '<tr class="' +
+              (odd_even ? "info" : "even") +
+              '">' +
+              tbl_row +
+              "</tr>";
+            odd_even = !odd_even;
+          });
+
+          fillContainer(
+            `<table class='table table-striped table-bordered'> ${tbl_body} </table>`
+          );
+        });
+      });
+
+      $("#medicineByPatient").submit(function (event) {
+        event.preventDefault();
+        var val = $("#byPatient").val();
+        emptyContainer();
+        $.get(
+          `https://jsonplaceholder.typicode.com/users/${val}`,
+          function (data) {
+            var tbl_body = "";
+            var odd_even = false;
+            var header =
+              "<tr class='success'><th>name</th><th>email</th><th>username</th><th>website</th></tr>";
+            tbl_body += header;
+
+            var tbl_row = "";
+
+            tbl_row += "<td>" + data.name + "</td>";
+            tbl_row += "<td>" + data.email + "</td>";
+            tbl_row += "<td>" + data.username + "</td>";
+            tbl_row += "<td>" + data.website + "</td>";
+
+            tbl_body +=
+              '<tr class="' +
+              (odd_even ? "info" : "even") +
+              '">' +
+              tbl_row +
+              "</tr>";
+            odd_even = !odd_even;
+
+            fillContainer(
+              `<table class='table table-striped table-bordered'> ${tbl_body} </table>`
+            );
+          }
+        );
+      });
+
+      $("#deleteMedicineForm").submit(function (event) {
+        event.preventDefault();
+        var val = $("#deleteMedicine").val();
+        emptyContainer();
+        $.ajax({
+          url: `medicine.json/${val}`,
+          type: "DELETE",
+          contentType: "application/json",
+        })
+          .done(function () {
+            // console.log("SUCCESS");
+            fillContainer(`DELETE PATIENT for ${val}  SUCCESS`);
+          })
+          .fail(function (msg) {
+            console.log("FAIL");
+            fillContainer(`DELETE PATIENT for ${val}  FAIL`);
+          });
+        fillContainer(`DELETE MEDICINE  ${val} `);
+      });
+
+      $("#updateMedicineForm").submit(function (event) {
+        event.preventDefault();
+        var val = $("#updateMedicine").val();
+        emptyContainer();
+        $.ajax({
+          type: "PUT",
+          url: `medincine.json/${val}`,
+          contentType: "application/json",
+          // data: JSON.stringify(data), // access in body
+        })
+          .done(function () {
+            // console.log("SUCCESS");
+            fillContainer(`UPDATE data for ${val}  SUCCESS`);
+          })
+          .fail(function (msg) {
+            console.log("FAIL");
+            fillContainer(`UPDATE data for ${val}  FAIL`);
+          });
+        // .always(function (msg) {
+        //   console.log("ALWAYS");
+        //   fillContainer(`UPDATE data for ${val}  ALWAys`);
+        // });
+        // fillContainer(`UPDATE data for ${val} SURGERIES`);
+        fillContainer(`UPDATE MEDICINE  ${val} `);
+      });
+    </script>
+  </body>
+</html>

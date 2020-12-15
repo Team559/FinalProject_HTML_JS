@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>PATIENT</title>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="Tooplate" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/animate.css" />
+    <link rel="stylesheet" href="css/owl.carousel.css" />
+    <link rel="stylesheet" href="css/owl.theme.default.min.css" />
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="css/tooplate-style.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+  </head>
+  <body
+    id="top"
+    data-spy="scroll"
+    data-target=".navbar-collapse"
+    data-offset="50"
+  >
+    <!-- PRE LOADER -->
+    <section class="preloader">
+      <div class="spinner">
+        <span class="spinner-rotate"></span>
+      </div>
+    </section>
+
+    <!-- HEADER -->
+    <header>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-sm-5">
+            <p>Welcome to a Medico RFID</p>
+          </div>
+
+          <div class="col-md-8 col-sm-7 text-align-right">
+            <span class="phone-icon"
+              ><i class="fa fa-phone"></i> 010-000-0000</span
+            >
+            <span class="date-icon"
+              ><i class="fa fa-calendar-plus-o"></i> 6:00 AM - 10:00 PM
+              (Mon-Fri)</span
+            >
+            <span class="email-icon"
+              ><i class="fa fa-envelope-o"></i>
+              <a href="#">info@company.com</a></span
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MENU -->
+    <section class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button
+            class="navbar-toggle"
+            data-toggle="collapse"
+            data-target=".navbar-collapse"
+          >
+            <span class="icon icon-bar"></span>
+            <span class="icon icon-bar"></span>
+            <span class="icon icon-bar"></span>
+          </button>
+
+          <!-- lOGO TEXT HERE -->
+          <a href="index.html" class="navbar-brand" style="color: red"
+            ><i class="fa fa-h-square"></i>Medico RFID</a
+          >
+        </div>
+
+        <!-- MENU LINKS -->
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="./surgeries.html" class="smoothScroll">Surgeries</a>
+            </li>
+            <li>
+              <a href="./assest-monitoring.html" class="smoothScroll"
+                >Assets Monitoring</a
+              >
+            </li>
+            <li>
+              <a href="#" class="smoothScroll active">Patient</a>
+            </li>
+            <li><a href="./staff.html" class="smoothScroll">Staff</a></li>
+            <li><a href="./medicine.html" class="smoothScroll">Medicine</a></li>
+
+            <li class="appointment-btn"><a href="/index.html">Logout</a></li>
+          </ul>
+        </div>
+        <!-- MENU LINKS ENDS-->
+      </div>
+    </section>
+
+    <!-- MAIN BODY -->
+    <section class="section-action-container">
+      <h1></h1>
+
+      <div class="all-actions-holder">
+        <button class="btn btn-info mb-10" id="getAll">GET All</button>
+
+        <!-- Add Patient-->
+        <form class="form-inline" id="addPatientForm">
+          <div class="form-group">
+            <label for="patientName">Patient Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="patientName"
+              placeholder="Patient Name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="patientRfid">Patient RFID</label>
+            <input
+              type="text"
+              class="form-control"
+              id="patientRfid"
+              placeholder="Patient RFID"
+            />
+          </div>
+          <button type="submit" class="btn btn-info">Add Patient</button>
+        </form>
+
+        <!--Delete Patient-->
+        <form class="form-inline" id="deletePatientForm">
+          <div class="form-group">
+            <label for="deletePatient">Delete Patient</label>
+            <input
+              type="text"
+              class="form-control"
+              id="deletePatient"
+              placeholder="Delete Patient"
+            />
+          </div>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="result-display" id="result-display"></section>
+
+    <!-- FOOTER -->
+    <!-- <section>
+      <iframe src="footer.html"></iframe>
+    </section> -->
+    <!--  -->
+
+    <!-- SCRIPTS -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.sticky.js"></script>
+    <script src="js/jquery.stellar.min.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script src="js/smoothscroll.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/common.js"></script>
+
+    <script>
+      $("#getAll").click(function (event) {
+        event.preventDefault();
+        emptyContainer();
+        $.get(`${URL}/patients/`, function (data) {
+          var tbl_body = "";
+          var odd_even = false;
+          var header =
+            "<tr class='success'><th>ID</th><th>Name</th><th>RfID</th></tr>";
+          tbl_body += header;
+          var list = data.patient_info;
+          $.each(list, function () {
+            var tbl_row = "";
+            console.log(this);
+
+            tbl_row += "<td>" + this.p_id + "</td>";
+            tbl_row += "<td>" + this.p_name + "</td>";
+            tbl_row += "<td>" + this.p_rfid + "</td>";
+
+            tbl_body +=
+              '<tr class="' +
+              (odd_even ? "info" : "even") +
+              '">' +
+              tbl_row +
+              "</tr>";
+            odd_even = !odd_even;
+          });
+
+          fillContainer(
+            `<table class='table table-striped table-bordered'> ${tbl_body} </table>`
+          );
+        });
+      });
+
+      $("#addPatientForm").submit(function (event) {
+        event.preventDefault();
+        var name = $("#patientName").val();
+        var rfid = $("#patientRfid").val();
+        emptyContainer();
+        $("#patientName").val("");
+        $("#patientRfid").val("");
+        $("#deletePatient").val("");
+        $.ajax({
+          type: "POST",
+          url: `${URL}/patients/`,
+          contentType: "application/json",
+          data: JSON.stringify({ name, rfid }),
+          success: function (data) {
+            console.log(data);
+            fillContainer(data);
+          },
+          error: function (error) {
+            console.log("FAIL", error);
+            fillContainer(error.responseText);
+          },
+        });
+      });
+
+      $("#deletePatientForm").submit(function (event) {
+        event.preventDefault();
+        var val = $("#deletePatient").val();
+        emptyContainer();
+        $.ajax({
+          url: `${URL}/patients/${val}`,
+          type: "DELETE",
+          contentType: "application/json",
+          success: function (data) {
+            console.log(data);
+            fillContainer(data);
+          },
+          error: function (error) {
+            console.log("FAIL", error);
+            fillContainer(error.responseText);
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
