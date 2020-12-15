@@ -77,7 +77,7 @@
 
           <!-- lOGO TEXT HERE -->
           <a href="index.html" class="navbar-brand" style="color: red"
-            ><i class="fa fa-h-square"></i>Medico RFID</a
+            ><img src='./logo.png' style='width: 150px;'/></a
           >
         </div>
 
@@ -152,6 +152,20 @@
             />
           </div>
           <button type="submit" class="btn btn-warning">Update</button>
+        </form>
+
+        <!-- Medicine Details-->
+        <form class="form-inline" id="medicineDetailsForm">
+          <div class="form-group">
+            <label for="medicineName">Medicine Details</label>
+            <input
+              type="text"
+              class="form-control"
+              id="medicineName"
+              placeholder="Update Medicine"
+            />
+          </div>
+          <button type="submit" class="btn btn-info">Get Details</button>
         </form>
       </div>
     </section>
@@ -289,6 +303,43 @@
         // fillContainer(`UPDATE data for ${val} SURGERIES`);
         fillContainer(`UPDATE MEDICINE  ${val} `);
       });
+      
+      $("#medicineDetailsForm").submit(function (event) {
+        event.preventDefault();
+        var val = $("#medicineName").val();
+        emptyContainer();
+
+        $.ajax({
+          type: "GET",
+          url: `${URL}/external/${val}`,
+          contentType: "application/json",
+          headers: {
+            'user': 'admin',
+          },
+          // data: JSON.stringify(data), // access in body
+          success: function (data) {
+            if (data == "[]") {
+            fillContainer(`Details for  ${val} not found !!`);
+              return;
+            };
+            var list = "";
+            var ll = data.substring(1, data.length-1).split(',');
+            for(var i=0;i<ll.length;i++) {
+              list += "<li>" + ll[i] + "</li>";
+            }
+
+            fillContainer(
+              `Details are: <br/> <ul> ${list} </ul>`
+            );
+          },
+          error: function (error) {
+            console.log("FAIL", error);
+            fillContainer(error.responseText || error.statusText);
+          },
+        });
+        
+      });
+      
     </script>
   </body>
 </html>

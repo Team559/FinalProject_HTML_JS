@@ -77,7 +77,7 @@
 
           <!-- lOGO TEXT HERE -->
           <a href="index.html" class="navbar-brand" style="color: red"
-            ><i class="fa fa-h-square"></i>Medico RFID</a
+            ><img src='./logo.png' style='width: 150px;'/></a
           >
         </div>
 
@@ -208,7 +208,7 @@
         $("#byDept").val("");
         $("#byName").val("");
         emptyContainer();
-        getData($`{URL}/staff/type/${val}`);
+        getData(`${URL}/staff/type/${val}`);
       });
 
       $("#getStaffByNameForm").submit(function (event) {
@@ -217,9 +217,9 @@
         //clearing other fields
         $('input[name="type"]').prop("checked", false);
         $("#byDept").val("");
-
+        console.log(val)
         emptyContainer();
-        getData($`{URL}/staff/name/${val}`);
+        getData(`${URL}/staff/name/${val}`);
       });
 
       $("#getStaffByDeptForm").submit(function (event) {
@@ -230,7 +230,7 @@
         $("#byName").val("");
 
         emptyContainer();
-        getData($`{URL}/staff/dept/${val}`);
+        getData(`${URL}/staff/dept/${val}`);
       });
 
       function getData(url) {
@@ -238,14 +238,14 @@
           var tbl_body = "";
           var odd_even = false;
           var header =
-            "<tr class='success'><th>ID</th><th>Name</th><th>Type</th><th>Specialization</th><th>Qualification</th></tr>";
+            "<tr class='success'><th>RFID</th><th>Name</th><th>Type</th><th>Specialization</th><th>Qualification</th></tr>";
           tbl_body += header;
           var list = data.staff_info;
           $.each(list, function () {
             var tbl_row = "";
             console.log(this);
 
-            tbl_row += "<td>" + this.st_id + "</td>";
+            tbl_row += "<td>" + this.st_rfid + "</td>";
             tbl_row += "<td>" + this.st_name + "</td>";
             tbl_row += "<td>" + this.st_type + "</td>";
             tbl_row += "<td>" + this.st_specialization + "</td>";

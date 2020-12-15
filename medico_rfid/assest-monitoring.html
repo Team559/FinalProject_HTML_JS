@@ -77,7 +77,7 @@
 
           <!-- lOGO TEXT HERE -->
           <a href="index.html" class="navbar-brand" style="color: red"
-            ><i class="fa fa-h-square"></i>Medico RFID</a
+            ><img src='./logo.png' style='width: 150px;'/></a
           >
         </div>
 
@@ -175,36 +175,55 @@
         $("#deleteAssest").val("");
 
         emptyContainer();
-        $.get(`${URL}/instruments`, function (data) {
-          var tbl_body = "";
-          var odd_even = false;
-          var header =
-            "<tr class='success'><th>ID</th><th>Name</th><th>RFID</th><th>Sterilized</th></tr>";
-          tbl_body += header;
-          var list = data.instruments_info;
-          $.each(list, function () {
-            var tbl_row = "";
 
-            tbl_row += "<td>" + this.i_id + "</td>";
-            tbl_row += "<td>" + this.i_name + "</td>";
-            tbl_row += "<td>" + this.i_rfid + "</td>";
-            tbl_row +=
-              "<td>" +
-              (this.sterlization_status == true ? "Yes" : "No") +
-              "</td>";
+        $.ajax({
+          type: "GET",
+          url: `${URL}/instruments`,
+          contentType: "application/json",
+          headers: {
+            "user": "admin",
+          },
+          // data: JSON.stringify(data), // access in body
+          success: function (data) {
+            console.log(data);
+            var tbl_body = "";
+            var odd_even = false;
+            var header =
+              "<tr class='success'><th>ID</th><th>Name</th><th>RFID</th><th>Sterilized</th></tr>";
+            tbl_body += header;
+            var list = data.instruments_info;
+            if (list.length == 0) {
+              fillContainer( "No Item Found")
+              return;
+            }
+            $.each(list, function () {
+              var tbl_row = "";
 
-            tbl_body +=
-              '<tr class="' +
-              (odd_even ? "info" : "even") +
-              '">' +
-              tbl_row +
-              "</tr>";
-            odd_even = !odd_even;
-          });
+              tbl_row += "<td>" + this.i_id + "</td>";
+              tbl_row += "<td>" + this.i_name + "</td>";
+              tbl_row += "<td>" + this.i_rfid + "</td>";
+              tbl_row +=
+                "<td>" +
+                (this.sterlization_status == true ? "Yes" : "No") +
+                "</td>";
 
-          fillContainer(
-            `<table class='table table-striped table-bordered'> ${tbl_body} </table>`
-          );
+              tbl_body +=
+                '<tr class="' +
+                (odd_even ? "info" : "even") +
+                '">' +
+                tbl_row +
+                "</tr>";
+              odd_even = !odd_even;
+            });
+
+            fillContainer(
+              `<table class='table table-striped table-bordered'> ${tbl_body} </table>`
+            )
+          },
+          error: function (error) {
+            console.log("FAIL", error);
+            fillContainer(error.responseText || error.statusText);
+          },
         });
       });
 
@@ -239,6 +258,9 @@
           type: "PUT",
           url: `${URL}/instruments/${val}`,
           contentType: "application/json",
+          headers: {
+            'user': 'admin',
+          },
           // data: JSON.stringify(data), // access in body
           success: function (data) {
             console.log(data);
@@ -246,7 +268,7 @@
           },
           error: function (error) {
             console.log("FAIL", error);
-            fillContainer(error.responseText);
+            fillContainer(error.responseText || error.statusText);
           },
         });
       });
@@ -263,48 +285,69 @@
           url: `${URL}/instruments/${val}`,
           type: "DELETE",
           contentType: "application/json",
+          headers: {
+            'user': 'admin',
+          },
           success: function (data) {
             console.log(data);
             fillContainer(data);
           },
           error: function (error) {
             console.log("FAIL", error);
-            fillContainer(error.responseText);
+            fillContainer(error.responseText || error.statusText);
           },
         });
       });
 
       function getFilterContent(type) {
-        $.get(`${URL}/instruments/${type}`, function (data) {
-          var tbl_body = "";
-          var odd_even = false;
-          var header =
-            "<tr class='success'><th>ID</th><th>Name</th><th>RFID</th><th>Sterilized</th></tr>";
-          tbl_body += header;
-          var list = data.instruments_info;
-          $.each(list, function () {
-            var tbl_row = "";
+        $.ajax({
+          type: "GET",
+          url: `${URL}/instruments/${type}`,
+          contentType: "application/json",
+          headers: {
+            'user': 'admin',
+          },
+          // data: JSON.stringify(data), // access in body
+          success: function (data) {
+            console.log(data);
+            var tbl_body = "";
+            var odd_even = false;
+            var header =
+              "<tr class='success'><th>ID</th><th>Name</th><th>RFID</th><th>Sterilized</th></tr>";
+            tbl_body += header;
+            var list = data.instruments_info;
+            if (list.length == 0) {
+              fillContainer( "No Item Found")
+              return;
+            }
+            $.each(list, function () {
+              var tbl_row = "";
 
-            tbl_row += "<td>" + this.i_id + "</td>";
-            tbl_row += "<td>" + this.i_name + "</td>";
-            tbl_row += "<td>" + this.i_rfid + "</td>";
-            tbl_row +=
-              "<td>" +
-              (this.sterlization_status == true ? "Yes" : "No") +
-              "</td>";
+              tbl_row += "<td>" + this.i_id + "</td>";
+              tbl_row += "<td>" + this.i_name + "</td>";
+              tbl_row += "<td>" + this.i_rfid + "</td>";
+              tbl_row +=
+                "<td>" +
+                (this.sterlization_status == true ? "Yes" : "No") +
+                "</td>";
 
-            tbl_body +=
-              '<tr class="' +
-              (odd_even ? "info" : "even") +
-              '">' +
-              tbl_row +
-              "</tr>";
-            odd_even = !odd_even;
-          });
+              tbl_body +=
+                '<tr class="' +
+                (odd_even ? "info" : "even") +
+                '">' +
+                tbl_row +
+                "</tr>";
+              odd_even = !odd_even;
+            });
 
-          fillContainer(
-            `<table class='table table-striped table-bordered'> ${tbl_body} </table>`
-          );
+            fillContainer(
+              `<table class='table table-striped table-bordered'> ${tbl_body} </table>`
+            )
+          },
+          error: function (error) {
+            console.log("FAIL", error);
+            fillContainer(error.responseText || error.statusText);
+          },
         });
       }
     </script>
